@@ -11,6 +11,8 @@ class User extends Authenticatable
 {
     use Notifiable, HasApiTokens;
 
+
+    protected $visible = ['name', 'email'];
     /**
      * The attributes that are mass assignable.
      *
