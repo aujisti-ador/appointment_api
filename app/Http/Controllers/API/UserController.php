@@ -7,16 +7,13 @@ use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Support\Facades\Auth;
 use Validator;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
     public $successStatus = 200;
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function login()
     {
         if (Auth::attempt(['email' => request('email'), 'password' => request('password')])) {
@@ -28,40 +25,6 @@ class UserController extends Controller
             return response()->json(['error' => 'Unauthorised'], 401);
         }
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-//    public function register(Request $request)
-//    {
-//        /**
-//         * Register api
-//         *
-//         * @return \Illuminate\Http\Response
-//         */
-//        $validator = Validator::make($request->all(), [
-//            'name' => 'required',
-//            'email' => 'required|email',
-//            'password' => 'required',
-//            'c_password' => 'required|same:password',
-//        ]);
-//
-//        if ($validator->fails()) {
-//            return response()->json(['error' => $validator->errors()], 401);
-//        }
-//
-//        $input = $request->all();
-//
-//        $input['password'] = bcrypt($input['password']);
-//        $user = User::create($input);
-//        $success['token'] = $user->createToken('MyApp')->accessToken;
-//        $success['name'] = $user->name;
-//        return response()->json(['success' => $success], $this->successStatus);
-//
-//    }
-
 
     public function register(Request $request)
 
@@ -104,13 +67,6 @@ class UserController extends Controller
 
     }
 
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
     public function details()
     {
         $user = Auth::user();
@@ -118,15 +74,17 @@ class UserController extends Controller
     }
 
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function logout()
     {
-        //
+        $accessToken = Auth::user()->token();
+        DB::table('oauth_refresh_tokens')
+            ->where('access_token_id', $accessToken->id)
+            ->update([
+                'revoked' => true
+            ]);
+
+        $accessToken->revoke();
+        return response()->json(null, 204);
     }
 
     /**
