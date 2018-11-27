@@ -84,7 +84,8 @@ class UserController extends Controller
             ]);
 
         $accessToken->revoke();
-        return response()->json(null, 204);
+//        return response()->json(['success' => 'logged out successfully!'], 204);
+        return response()->json(['success' => 'logout success'], 200);
     }
 
     /**
