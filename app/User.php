@@ -11,13 +11,13 @@ class User extends Authenticatable
 {
     use Notifiable, HasApiTokens;
 
+    public function isActive() {
+        return true;
+    }
 
-    protected $visible = ['name', 'email'];
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
+
+    protected $visible = ['id', 'name', 'email'];
+
     protected $fillable = [
         'name', 'email', 'password',
     ];
