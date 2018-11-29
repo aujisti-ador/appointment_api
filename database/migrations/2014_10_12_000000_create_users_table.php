@@ -22,18 +22,13 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->integer('organizations_id')->unsigned();
             $table->string('mobile_no')->unique();
+            $table->boolean('is_available')->default(1);
             $table->string('gender',8);
             $table->text('secret_question');
             $table->text('secret_answer');
             $table->string('avatar');
             $table->rememberToken();
             $table->timestamps();
-        });
-
-        Schema::table('users', function($table) {
-            $table->foreign('organizations_id')
-                ->references('id')->on('organizations')
-                ->onDelete('cascade');
         });
     }
 
