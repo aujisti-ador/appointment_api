@@ -11,12 +11,13 @@ class User extends Authenticatable
 {
     use Notifiable, HasApiTokens;
 
-    public function isActive() {
+    public function isActive()
+    {
         return true;
     }
 
 
-    protected $visible = ['id', 'name', 'email'];
+    protected $visible = ['name', 'email', 'designation', 'mobile_no', 'is_available', 'avatar'];
 
     protected $fillable = [
         'name', 'email', 'password',

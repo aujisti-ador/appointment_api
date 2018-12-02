@@ -19,6 +19,7 @@ class CreateAppointmentsHistoriesTable extends Migration
             $table->integer('guest_id')->unsigned();
             $table->integer('purpose_id')->unsigned();
             $table->text('location');
+            $table->string('note')->default('please give me an appointment!');
             $table->integer('appointment_status_id')->unsigned();
             $table->integer('assistant_id')->unsigned();
             $table->timestamps();
