@@ -17,7 +17,6 @@ class CreateAppointmentsTable extends Migration
             $table->increments('id');
             $table->integer('host_id')->unsigned();
             $table->integer('guest_id')->unsigned();
-            $table->integer('purpose_id')->unsigned();
             $table->string('note')->default('please give me an appointment!');
             $table->text('location');
             $table->integer('appointment_status_id')->unsigned();
