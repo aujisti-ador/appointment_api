@@ -18,7 +18,8 @@ class AppointmentStatusTableSeeder extends Seeder
         DB::table('appointments_status')->insert([
             ['id' => 1, 'status' => 'accepted'],
             ['id' => 2, 'status' => 'pending'],
-            ['id' => 3, 'status' => 'rejected']
+            ['id' => 3, 'status' => 'rejected'],
+            ['id' => 4, 'status' => 'walking'],
         ]);
 
     }

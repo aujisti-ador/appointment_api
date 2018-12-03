@@ -76,7 +76,6 @@ class UserController extends Controller
         $success['org_info'] = Organization::find($user->organizations_id);
 
 
-
 //        $temp = Organization::where('id', $user->organizations_id) ->first();
 
 //        dd($temp);
