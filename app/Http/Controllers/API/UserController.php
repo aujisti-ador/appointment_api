@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
+use App\Organization;
 use Illuminate\Support\Facades\Auth;
 use Validator;
 use Illuminate\Support\Facades\DB;
@@ -52,6 +53,8 @@ class UserController extends Controller
 
         $input = $request->all();
 
+//        dd($input);
+
         $input['password'] = bcrypt($input['password']);
 
         $user = User::create($input);
@@ -62,6 +65,26 @@ class UserController extends Controller
 
         $success['email'] = $user->email;
 
+        $success['designation'] = $user->designation;
+
+        $success['mobile_no'] = $user->mobile_no;
+
+        $success['gender'] = $user->gender;
+
+        $success['avatar'] = $user->avatar;
+
+        $success['org_info'] = Organization::find($user->organizations_id);
+
+
+
+//        $temp = Organization::where('id', $user->organizations_id) ->first();
+
+//        dd($temp);
+
+//        $success['org_name'] = $temp->organizations_id;
+
+//        dd($success);
+
 
         return response()->json(['success' => $success], $this->successStatus);
 
@@ -70,7 +93,22 @@ class UserController extends Controller
     public function details()
     {
         $user = Auth::user();
-        return response()->json(['success' => $user], $this->successStatus);
+
+        $success['name'] = $user->name;
+
+        $success['email'] = $user->email;
+
+        $success['designation'] = $user->designation;
+
+        $success['org_info'] = Organization::find($user->organizations_id);
+
+        $success['mobile_no'] = $user->mobile_no;
+
+        $success['gender'] = $user->gender;
+
+        $success['avatar'] = $user->avatar;
+
+        return response()->json(['success' => $success], $this->successStatus);
     }
 
     public function getAllUsers()
