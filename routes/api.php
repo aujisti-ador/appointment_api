@@ -19,8 +19,10 @@ use Illuminate\Http\Request;
 
 Route::group(['prefix' => 'v1'], function () {
 
+//    url: localhost:8000/api/v1
     Route::group(['prefix' => 'user'], function () {
         //Authentication Route
+        //    url: localhost:8000/api/v1/user
         Route::post('login', 'API\UserController@login');
         Route::post('register', 'API\UserController@register');
 
@@ -31,5 +33,9 @@ Route::group(['prefix' => 'v1'], function () {
         });
     });
 
-//    Route::group(['prefix' => 'appointments']);
+//    url: localhost:8000/api/v1
+    Route::group(['prefix' => 'appointments', 'middleware' => 'auth:api'], function () {
+        //    url: localhost:8000/api/v1/appointments
+        Route::post('create', 'API\AppoinmentsController@create');
+    });
 });
