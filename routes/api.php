@@ -30,4 +30,6 @@ Route::group(['prefix' => 'v1'], function () {
             Route::post('users', 'API\UserController@getAllUsers');
         });
     });
+
+//    Route::group(['prefix' => 'appointments']);
 });

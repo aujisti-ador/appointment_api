@@ -19,8 +19,16 @@ class UserController extends Controller
     {
         if (Auth::attempt(['email' => request('email'), 'password' => request('password')])) {
             $user = Auth::user();
+            $success['name'] = $user->name;
+            $success['email'] = $user->email;
+            $success['designation'] = $user->designation;
+            $success['mobile_no'] = $user->mobile_no;
+            $success['is_available'] = $user->is_available;
+            $success['avatar'] = $user->avatar;
+            $success['org_info'] = Organization::find($user->organizations_id);
             $success['token'] = $user->createToken('appointment_api')->accessToken;
-            return response()->json(['success' => $success, 'user' => $user], $this->successStatus);
+
+            return response()->json(['success' => $success], $this->successStatus);
 
         } else {
             return response()->json(['error' => 'Unauthorised'], 401);
