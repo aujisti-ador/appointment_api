@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Validator;
 use App\Appointment;
 use App\User;
 
@@ -24,6 +25,22 @@ class AppoinmentsController extends Controller
 //        $input = $request->all();
 //        dd($input);
 
+        $validator = Validator::make($request->all(), [
+
+            'host_id' => 'required',
+
+            'guest_name' => 'required',
+
+            'location' => 'required',
+        ]);
+
+
+        if ($validator->fails()) {
+
+            return response()->json(['error' => $validator->errors()], 401);
+
+        }
+
         $user = Auth::user();
         $appointment = new Appointment();
 
@@ -41,7 +58,7 @@ class AppoinmentsController extends Controller
 
         $appointment->save();
 
-        return response()->json(['success' => 'success'], $this->successStatus);
+        return response()->json(['success' => 'success'], app('Illuminate\Http\Response')->status());
 
 
     }
