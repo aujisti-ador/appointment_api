@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Validator;
 use App\Appointment;
 use App\User;
+use Carbon\Carbon;
 
 class AppoinmentsController extends Controller
 {
@@ -18,7 +19,7 @@ class AppoinmentsController extends Controller
         //
     }
 
-    public function create(Request $request)
+    public function createWalking(Request $request)
     {
 //        return response()->json(['success' => "success"], $this->successStatus);
 
@@ -63,20 +64,49 @@ class AppoinmentsController extends Controller
 
     }
 
-    public function store(Request $request)
+    public function create(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+
+            'host_id' => 'required',
+
+            'location' => 'required',
+
+            'time' => 'required',
+
+            'date' => 'required',
+        ]);
+
+
+        if ($validator->fails()) {
+
+            return response()->json(['error' => $validator->errors()], 401);
+
+        }
+
+        $user = Auth::user();
+        $appointment = new Appointment();
+
+        $appointment['host_id'] = $request->input('host_id');
+        $appointment['guest_id'] = $user->id;
+        $appointment['note'] = $request->input('note');
+        $appointment['location'] = $request->input('location');
+        $appointment['time'] = Carbon::parse($request->input('time'));
+        $appointment['date'] = Carbon::parse($request->input('date'));
+
+//        dd($appointment);
+//        dd($appointment['date']->toFormattedDateString());
+//        dd($appointment['time']->format('g:i A'));
+
+        $appointment->save();
+
+        return response()->json(['success' => 'success'], app('Illuminate\Http\Response')->status());
+
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
-        //
+
     }
 
     /**

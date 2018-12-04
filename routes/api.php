@@ -36,6 +36,7 @@ Route::group(['prefix' => 'v1'], function () {
 //    url: localhost:8000/api/v1
     Route::group(['prefix' => 'appointments', 'middleware' => 'auth:api'], function () {
         //    url: localhost:8000/api/v1/appointments
-        Route::post('create/walking', 'API\AppoinmentsController@create');
+        Route::post('create/walking', 'API\AppoinmentsController@createWalking');
+        Route::post('create', 'API\AppoinmentsController@create');
     });
 });
