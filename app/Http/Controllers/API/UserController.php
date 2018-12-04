@@ -31,7 +31,7 @@ class UserController extends Controller
             return response()->json(['success' => $success], $this->successStatus);
 
         } else {
-            return response()->json(['error' => 'Unauthorised'], 401);
+            return response()->json(['error' => 'Unauthorised'], app('Illuminate\Http\Response')->status());
         }
     }
 
@@ -54,7 +54,7 @@ class UserController extends Controller
 
         if ($validator->fails()) {
 
-            return response()->json(['error' => $validator->errors()], 401);
+            return response()->json(['error' => $validator->errors()],app('Illuminate\Http\Response')->status());
 
         }
 
@@ -115,13 +115,13 @@ class UserController extends Controller
 
         $success['avatar'] = $user->avatar;
 
-        return response()->json(['success' => $success], $this->successStatus);
+        return response()->json(['success' => $success], app('Illuminate\Http\Response')->status());
     }
 
     public function getAllUsers()
     {
         $user = User::all();
-        return response()->json(['success' => $user], $this->successStatus);
+        return response()->json(['success' => $user], app('Illuminate\Http\Response')->status());
     }
 
 
