@@ -21,9 +21,28 @@ class AppoinmentsController extends Controller
     {
 //        return response()->json(['success' => "success"], $this->successStatus);
 
+//        $input = $request->all();
+//        dd($input);
+
         $user = Auth::user();
-        $success['host_id'] = $user->id;
-        dd($success['host_id']);
+        $appointment = new Appointment();
+
+        $appointment['host_id'] = $request->input('host_id');
+        $appointment['guest_id'] = $request->input('guest_id');
+        $appointment['guest_name'] = $request->input('guest_name');
+        $appointment['guest_designation'] = $request->input('guest_designation');
+        $appointment['note'] = $request->input('note');
+        $appointment['location'] = $request->input('location');
+        $appointment['assistant_id'] = $user->id;
+        $appointment['avatar'] = $request->input('avatar');
+        $appointment['appointment_status_id'] = 4;
+
+//        dd($appointment);
+
+        $appointment->save();
+
+        return response()->json(['success' => 'success'], $this->successStatus);
+
 
     }
 
