@@ -19,10 +19,12 @@ class User extends Authenticatable
 
     protected $visible = ['name', 'email', 'designation', 'mobile_no', 'is_available', 'avatar'];
 
-    protected $fillable = [
-        'name', 'email', 'password', 'designation', 'mobile_no', 'is_available', 'avatar', 'gender'
-        , 'secret_question', 'secret_answer', 'organizations_id'
-    ];
+//    protected $fillable = [
+//        'name', 'email', 'password', 'designation', 'mobile_no', 'is_available', 'avatar', 'gender'
+//        , 'secret_question', 'secret_answer', 'organizations_id'
+//    ];
+
+    protected $guarded = ['password', 'email'];
 
     protected $hidden = [
         'password', 'remember_token',
