@@ -17,7 +17,7 @@ class User extends Authenticatable
     }
 
 
-    protected $visible = ['name', 'email', 'designation', 'mobile_no', 'is_available', 'avatar'];
+    protected $visible = ['id', 'name', 'email', 'designation', 'mobile_no', 'is_available', 'avatar'];
 
 //    protected $fillable = [
 //        'name', 'email', 'password', 'designation', 'mobile_no', 'is_available', 'avatar', 'gender'

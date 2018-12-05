@@ -35,9 +35,18 @@ Route::group(['prefix' => 'v1'], function () {
 
 //    url: localhost:8000/api/v1
     Route::group(['prefix' => 'appointments', 'middleware' => 'auth:api'], function () {
+//        creating appointments routes
         //    url: localhost:8000/api/v1/appointments
         Route::post('create/walking', 'API\AppoinmentsController@createWalking');
         Route::post('create/request', 'API\AppoinmentsController@createRequst');
         Route::post('create/myguest', 'API\AppoinmentsController@createMyGuest');
+    });
+
+
+    //    url: localhost:8000/api/v1
+    Route::group(['prefix' => 'response', 'middleware' => 'auth:api'], function () {
+//        creating appointments routes
+        //    url: localhost:8000/api/v1/appointments
+        Route::post('show-all', 'API\ResponseController@showAllRequests');
     });
 });

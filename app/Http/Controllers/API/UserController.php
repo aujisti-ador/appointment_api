@@ -113,6 +113,8 @@ class UserController extends Controller
 
         $success['gender'] = $user->gender;
 
+        $success['is_available'] = $user->is_available;
+
         $success['avatar'] = $user->avatar;
 
         return response()->json(['success' => $success], app('Illuminate\Http\Response')->status());
