@@ -54,6 +54,8 @@ class ResponseController extends Controller
         $appointments = Appointment::where('host_id', $user->id)
             ->where('appointment_status_id', 2)
             ->orWhere('appointment_status_id', 4)
+            ->orderBy('date', 'asc')
+            ->orderBy('time', 'asc')
             ->get();
 
 //        dd($appointments);
@@ -93,6 +95,8 @@ class ResponseController extends Controller
         $user = Auth::user();
         $appointments = Appointment::where('host_id', $user->id)
             ->where('appointment_status_id', 1)
+            ->orderBy('date', 'asc')
+            ->orderBy('time', 'asc')
             ->get();
 
         $results = array();
