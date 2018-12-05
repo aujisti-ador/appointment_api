@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Appointment;
+use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class ResponseController extends Controller
 {
@@ -30,7 +33,7 @@ class ResponseController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -41,18 +44,42 @@ class ResponseController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function showAllRequests()
+    public function showAllPendingRequests()
     {
-        return response()->json(['success' => 'in response']);
+        $user = Auth::user();
+        $appointments = Appointment::where('host_id', $user->id)
+            ->where('appointment_status_id', 2)
+            ->orWhere('appointment_status_id', 4)
+            ->get();
+
+//        if ($appointments->)
+
+//        dd($appointments);
+
+        return response()->json(['success' => $appointments], app('Illuminate\Http\Response')->status());
+
+    }
+
+    public function showAllAcceptedRequests()
+    {
+        $user = Auth::user();
+        $appointments = Appointment::where('host_id', $user->id)
+            ->where('appointment_status_id', 1)
+            ->get();
+
+//        dd($appointments);
+
+        return response()->json(['success' => $appointments], app('Illuminate\Http\Response')->status());
+
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -63,8 +90,8 @@ class ResponseController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -75,7 +102,7 @@ class ResponseController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
