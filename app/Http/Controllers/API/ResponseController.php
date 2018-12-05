@@ -7,6 +7,7 @@ use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class ResponseController extends Controller
 {
@@ -50,16 +51,37 @@ class ResponseController extends Controller
     public function showAllPendingRequests()
     {
         $user = Auth::user();
-        $appointments = Appointment::where('host_id', $user->id)
-            ->where('appointment_status_id', 2)
-            ->orWhere('appointment_status_id', 4)
-            ->get();
-
-//        if ($appointments->)
+        $appointments = Appointment::where('host_id', $user->id)->get();
 
 //        dd($appointments);
 
-        return response()->json(['success' => $appointments], app('Illuminate\Http\Response')->status());
+        $results = array();
+        foreach ($appointments as $appointment) {
+            if (empty($appointment->guest_id)) {
+//                dd($appointment->name);
+                $success['guest_name'] = $appointment->guest_name;
+                $success['note'] = $appointment->note;
+                $success['location'] = $appointment->location;
+                $success['time'] = $appointment->time;
+                $success['date'] = $appointment->date;
+                $success['avatar'] = $appointment->avatar;
+                $success['designation'] = $appointment->guest_designation;
+            } else {
+                $guest_info = User::find($appointment->guest_id)->first();
+                $success['guest_name'] = $guest_info->name;
+                $success['designation'] = $guest_info->designation;
+                $success['avatar'] = $guest_info->avatar;
+                $success['note'] = $appointment->note;
+                $success['location'] = $appointment->location;
+                $time = Carbon::parse($appointment->time);
+                $date = Carbon::parse($appointment->date);
+                $success['time'] = $time->format('g:i A');
+                $success['date'] = $date->toFormattedDateString();
+
+            }
+            $results[] = $success;
+        }
+        return response()->json(['success' => $results], app('Illuminate\Http\Response')->status());
 
     }
 
