@@ -49,6 +49,12 @@ class UserController extends Controller
 
             'c_password' => 'required|same:password',
 
+            'designation' => 'required',
+
+            'mobile_no' => 'required'
+
+
+
         ]);
 
 

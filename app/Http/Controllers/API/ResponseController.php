@@ -51,9 +51,16 @@ class ResponseController extends Controller
     public function showAllPendingRequests()
     {
         $user = Auth::user();
+
+//        $appointments = Appointment::where('host_id', $user->id)
+//            ->where('appointment_status_id', 2)
+//            ->orWhere('appointment_status_id', 4)
+//            ->orderBy('date', 'asc')
+//            ->orderBy('time', 'asc')
+//            ->get();
+
         $appointments = Appointment::where('host_id', $user->id)
-            ->where('appointment_status_id', 2)
-            ->orWhere('appointment_status_id', 4)
+            ->whereIn('appointment_status_id', [2, 4])
             ->orderBy('date', 'asc')
             ->orderBy('time', 'asc')
             ->get();
@@ -90,10 +97,42 @@ class ResponseController extends Controller
 
     }
 
+    public function showAllSentRequests()
+    {
+        $user = Auth::user();
+        $appointments = Appointment::where('guest_id', $user->id)
+            ->where('appointment_status_id', 2)
+            ->orderBy('date', 'asc')
+            ->orderBy('time', 'asc')
+            ->get();
+
+//        dd($appointments);
+
+        $results = array();
+        foreach ($appointments as $appointment) {
+
+            $host_info = User::find($appointment->host_id)->first();
+            $success['host_name'] = $host_info->name;
+            $success['designation'] = $host_info->designation;
+            $success['avatar'] = $host_info->avatar;
+            $success['note'] = $appointment->note;
+            $success['location'] = $appointment->location;
+            $time = Carbon::parse($appointment->time);
+            $date = Carbon::parse($appointment->date);
+            $success['time'] = $time->format('g:i A');
+            $success['date'] = $date->toFormattedDateString();
+
+            $results[] = $success;
+        }
+        return response()->json(['success' => $results], app('Illuminate\Http\Response')->status());
+
+    }
+
     public function showAllAcceptedRequests()
     {
         $user = Auth::user();
         $appointments = Appointment::where('host_id', $user->id)
+            ->orWhere('guest_id', $user->id)
             ->where('appointment_status_id', 1)
             ->orderBy('date', 'asc')
             ->orderBy('time', 'asc')
