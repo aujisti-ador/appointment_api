@@ -52,4 +52,8 @@ Route::group(['prefix' => 'v1'], function () {
         Route::get('accepted-requests', 'API\ResponseController@showAllAcceptedRequests');
         Route::put('my-requests/update', 'API\ResponseController@updateRequests');
     });
+
+    Route::group(['prefix' => 'assistant', 'middleware' => 'auth:api'], function () {
+        Route::get('show-appointments', 'API\AssistantController@showTodaysAppointments');
+    });
 });
