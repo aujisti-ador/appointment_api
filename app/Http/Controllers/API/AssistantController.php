@@ -44,7 +44,9 @@ class AssistantController extends Controller
 
     public function showTodaysAppointments()
     {
-        return "success";
+        $data = Appointment::where('date', Carbon::today())->get();
+
+        return response()->json(['success'=>$data]);
     }
 
     /**
