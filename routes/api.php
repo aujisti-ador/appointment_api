@@ -46,9 +46,10 @@ Route::group(['prefix' => 'v1'], function () {
     //    url: localhost:8000/api/v1
     Route::group(['prefix' => 'response', 'middleware' => 'auth:api'], function () {
 //        creating appointments routes
-        //    url: localhost:8000/api/v1/appointments
-        Route::post('my-requests', 'API\ResponseController@showAllPendingRequests');
+        //    url: localhost:8000/api/v1/response
+        Route::get('my-requests', 'API\ResponseController@showAllPendingRequests');
         Route::get('sent-requests', 'API\ResponseController@showAllSentRequests');
-        Route::post('accepted-requests', 'API\ResponseController@showAllAcceptedRequests');
+        Route::get('accepted-requests', 'API\ResponseController@showAllAcceptedRequests');
+        Route::put('my-requests/update', 'API\ResponseController@updateRequests');
     });
 });
