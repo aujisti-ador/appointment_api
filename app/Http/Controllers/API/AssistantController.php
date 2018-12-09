@@ -11,32 +11,17 @@ use Carbon\Carbon;
 
 class AssistantController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         //
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         //
@@ -44,40 +29,50 @@ class AssistantController extends Controller
 
     public function showTodaysAppointments()
     {
-        $data = Appointment::where('date', Carbon::today())->get();
+        $user = Auth::user();
 
-        return response()->json(['success'=>$data]);
+        $appointments = Appointment::where([['date', Carbon::today()], ['appointment_status_id', 1]])->get();
+
+        $org_id_ast = $user->organizations_id;
+
+//        dd($appointments->host_id);
+//        dd($ast_id);
+
+        foreach ($appointments as $appointment) {
+//            dd($appointment->host_id);
+            $usr = User::find($appointment->host_id);
+            if ($usr->organizations_id == $org_id_ast) {
+                $res = Appointment::where([['date', Carbon::today()], ['appointment_status_id', 1]])->get();
+                return response()->json(['success' => $res]);
+            } else {
+                return response()->json(['success' => "no data!"]);
+            }
+
+        }
+
+
+
+
+//        if ($user->organizations_id == $result-> organizations_id) {
+//            $res = Appointment::where([['date', Carbon::today()], ['appointment_status_id', 1]])->get();
+//            return response()->json(['success' => $res]);
+//        } else {
+//            return response()->json(['success' => "no data!"]);
+//        }
+
+//        return response()->json(['success' => $data]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         //

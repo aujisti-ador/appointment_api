@@ -38,6 +38,7 @@ Route::group(['prefix' => 'v1'], function () {
 
 //url: localhost:8000/api/v1/assistant
     Route::group(['prefix' => 'assistant', 'middleware' => 'auth:api'], function () {
-        Route::get('show-appointments', 'API\AssistantController@showTodaysAppointments');
+
+        Route::get('show-todays-appointments', 'API\AssistantController@showTodaysAppointments');
     });
 });
