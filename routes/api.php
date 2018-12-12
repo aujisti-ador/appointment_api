@@ -19,11 +19,11 @@ Route::group(['prefix' => 'v1'], function () {
     });
 
 //url: localhost:8000/api/v1/appointments
-    Route::group(['prefix' => 'appointments', 'middleware' => 'auth:api'], function () {
+    Route::group(['prefix' => 'appointments/create', 'middleware' => 'auth:api'], function () {
 
-        Route::post('create/walking', 'API\AppoinmentsController@createWalking');
-        Route::post('create/request', 'API\AppoinmentsController@createRequst');
-        Route::post('create/myguest', 'API\AppoinmentsController@createMyGuest');
+        Route::post('walking', 'API\AppoinmentsController@createWalking');
+        Route::post('request', 'API\AppoinmentsController@createRequst');
+        Route::post('myguest', 'API\AppoinmentsController@createMyGuest');
     });
 
 
