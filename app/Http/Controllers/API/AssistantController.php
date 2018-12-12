@@ -53,15 +53,6 @@ class AssistantController extends Controller
 
         }
 
-
-//        if ($user->organizations_id == $result-> organizations_id) {
-//            $res = Appointment::where([['date', Carbon::today()], ['appointment_status_id', 1]])->get();
-//            return response()->json(['success' => $res]);
-//        } else {
-//            return response()->json(['success' => "no data!"]);
-//        }
-
-//        return response()->json(['success' => $data]);
     }
 
     public function edit($id)
