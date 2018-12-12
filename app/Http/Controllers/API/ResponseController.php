@@ -133,12 +133,6 @@ class ResponseController extends Controller
     public function showAllAcceptedRequests()
     {
         $user = Auth::user();
-//        $appointments = Appointment::where('host_id', $user->id)
-//            ->orWhere('guest_id', $user->id)
-//            ->where('appointment_status_id', 1)
-//            ->orderBy('date', 'asc')
-//            ->orderBy('time', 'asc')
-//            ->get();
 
         $appointments = Appointment::where([['host_id', $user->id], ['appointment_status_id', 1]])
             ->orWhere([['guest_id', $user->id], ['appointment_status_id', 1]])
@@ -178,17 +172,6 @@ class ResponseController extends Controller
 
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
     public function updateRequests(Request $request)
     {
         $user = Auth::user();
@@ -218,16 +201,5 @@ class ResponseController extends Controller
             }
 
         }
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }

@@ -18,12 +18,20 @@ Route::group(['prefix' => 'v1'], function () {
         });
     });
 
-//url: localhost:8000/api/v1/appointments
+//url: localhost:8000/api/v1/appointments/create
     Route::group(['prefix' => 'appointments/create', 'middleware' => 'auth:api'], function () {
 
         Route::post('walking', 'API\AppoinmentsController@createWalking');
         Route::post('request', 'API\AppoinmentsController@createRequst');
         Route::post('myguest', 'API\AppoinmentsController@createMyGuest');
+    });
+
+//    url: localhost:8000/api/v1/appointments/edit
+    Route::group(['prefix' => 'appointments/edit', 'middleware' => 'auth:api'], function () {
+
+//        Route::post('walking', 'API\AppoinmentsController@editWalking');
+        Route::put('request', 'API\AppoinmentsController@editRequst');
+//        Route::post('myguest', 'API\AppoinmentsController@editMyGuest');
     });
 
 
