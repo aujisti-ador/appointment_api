@@ -31,7 +31,7 @@ Route::group(['prefix' => 'v1'], function () {
 
 //        Route::post('walking', 'API\AppoinmentsController@editWalking');
         Route::put('request', 'API\AppoinmentsController@editRequst');
-//        Route::post('myguest', 'API\AppoinmentsController@editMyGuest');
+        Route::put('myguest', 'API\AppoinmentsController@editMyGuest');
     });
 
 

@@ -165,6 +165,44 @@ class AppoinmentsController extends Controller
         } else {
             return response()->json(['success' => "failed!"], app('Illuminate\Http\Response')->status());
         }
+    }
 
+    public function editMyGuest(Request $request)
+    {
+
+        $user = Auth::user();
+
+        $appointment['guest_name'] = $request->input('guest_name'); //who is getting the request
+        $appointment['assistant_id'] = $request->input('assistant_id');
+        $appointment['note'] = $request->input('note');
+        $appointment['guest_designation'] = $request->input('guest_designation');
+        $appointment['time'] = Carbon::parse($request->input('time'));
+        $appointment['date'] = Carbon::parse($request->input('date'));
+
+        $update_details = array(
+            'guest_name' => $appointment['guest_name'],
+            'assistant_id' => $appointment['assistant_id'],
+            'note' => $appointment['note'],
+            'guest_designation' => $appointment['guest_designation'],
+            'time' => Carbon::parse($appointment['time']),
+            'date' => Carbon::parse($appointment['date']),
+        );
+
+        $appointments = DB::table('appointments')
+            ->where([['host_id', $user->id], ['appointment_status_id', 4], ['id', $request->input('appointment_id')]])
+            ->update($update_details);
+
+        if ($appointments) {
+            $appointment = Appointment::find($request->input('appointment_id'));
+            $time = Carbon::parse($appointment->time);
+            $date = Carbon::parse($appointment->date);
+            $appointment['time'] = $time->format('g:i A');
+            $appointment['date'] = $date->toFormattedDateString();
+
+            return response()->json(['success' => $appointment], app('Illuminate\Http\Response')->status());
+
+        } else {
+            return response()->json(['success' => "failed!"], app('Illuminate\Http\Response')->status());
+        }
     }
 }
