@@ -29,7 +29,6 @@ Route::group(['prefix' => 'v1'], function () {
 //    url: localhost:8000/api/v1/appointments/edit
     Route::group(['prefix' => 'appointments/edit', 'middleware' => 'auth:api'], function () {
 
-//        Route::post('walking', 'API\AppoinmentsController@editWalking');
         Route::put('request', 'API\AppoinmentsController@editRequest');
         Route::put('myguest', 'API\AppoinmentsController@editMyGuest');
     });
@@ -37,9 +36,7 @@ Route::group(['prefix' => 'v1'], function () {
     //    url: localhost:8000/api/v1/appointments/delete
     Route::group(['prefix' => 'appointments/delete', 'middleware' => 'auth:api'], function () {
 
-//        Route::post('walking', 'API\AppoinmentsController@editWalking');
         Route::delete('request', 'API\AppoinmentsController@deleteRequest');
-//        Route::put('myguest', 'API\AppoinmentsController@editMyGuest');
     });
 
 
