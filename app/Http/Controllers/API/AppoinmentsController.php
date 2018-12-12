@@ -65,7 +65,7 @@ class AppoinmentsController extends Controller
 
     }
 
-    public function createRequst(Request $request)
+    public function createRequest(Request $request)
     {
         $validator = Validator::make($request->all(), [
 
@@ -95,7 +95,7 @@ class AppoinmentsController extends Controller
         $appointment['time'] = Carbon::parse($request->input('time'));
         $appointment['date'] = Carbon::parse($request->input('date'));
 
-//        dd($appointment);
+//        dd($appointment);editRequst
 //        dd($appointment['date']->toFormattedDateString());
 //        dd($appointment['time']->format('g:i A'));
 
@@ -130,7 +130,7 @@ class AppoinmentsController extends Controller
 
     }
 
-    public function editRequst(Request $request)
+    public function editRequest(Request $request)
     {
 
         $user = Auth::user();
@@ -203,6 +203,30 @@ class AppoinmentsController extends Controller
 
         } else {
             return response()->json(['success' => "failed!"], app('Illuminate\Http\Response')->status());
+        }
+    }
+
+    public function deleteRequest(Request $request)
+    {
+
+        $user = Auth::user();
+        $appointment = Appointment::findOrFail($request->input('appointment_id'));
+
+
+        if ($appointment) {
+
+            $appointments = DB::table('appointments')
+                ->where([['guest_id', $user->id], ['id', $request->input('appointment_id')]])
+                ->delete();
+
+            if ($appointments) {
+                return response()->json(['success' => "deleted!"], app('Illuminate\Http\Response')->status());
+
+            } else {
+                return response()->json(['success' => "failed!"], app('Illuminate\Http\Response')->status());
+            }
+        } else {
+            return response()->json(['success' => "no appointment id found!"], 404);
         }
     }
 }
